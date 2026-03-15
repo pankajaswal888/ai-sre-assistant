@@ -256,6 +256,12 @@ Pod requests impossible resources.
 
 The assistant was tested with several real-world failure modes.
 
+
+![alt text](image-1.png)
+
+
+![alt text](image-2.png)
+
 **Future Improvements**
 
 Several enhancements can make the system more production-ready.
