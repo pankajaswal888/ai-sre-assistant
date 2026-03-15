@@ -8,15 +8,15 @@ The system behaves like a junior SRE assistant that continuously monitors Kubern
 
 SRE teams spend a significant amount of time triaging repetitive incidents such as:
 
-CrashLoopBackOff containers
+* CrashLoopBackOff containers
 
-OOMKilled workloads
+* OOMKilled workloads
 
-Failed scheduling events
+* Failed scheduling events
 
-Misconfigured resource limits
+* Misconfigured resource limits
 
-Application startup failures
+* Application startup failures
 
 The goal of this project is to explore whether AI can assist in early incident diagnosis by automatically analyzing operational telemetry.
 
@@ -154,22 +154,22 @@ Key responsibilities:
 
 Signals collected:
 
-container name
-container image
-restart count
-exit code
-termination reason
-OOMKilled
-resource limits
-liveness/readiness probes
-container logs
+* container name
+* container image
+* restart count
+* exit code
+* termination reason
+* OOMKilled
+* resource limits
+* liveness/readiness probes
+* container logs
 
 
 **collector.py**
 
 Collects additional context from the cluster.
 
-Responsibilities:
+*Responsibilities:*
 
 1.Fetch pod metadata
 
@@ -192,26 +192,27 @@ Responsible for AI diagnosis.
 
 The analyzer sends structured incident data to AWS Bedrock.
 
-Model used:
-google.gemma-3-4b-it
+*Model used: google.gemma-3-4b-it*
 
 The prompt asks the model to generate:
 
-Root cause
+1.Root cause
 
-Evidence
+2.Evidence
 
-Immediate remediation
+3.Immediate remediation
 
-Long-term fix
+4.Long-term fix
 
-Confidence score
+5.Confidence score
 
 **notifier.py**
 
 Handles incident notifications.
 
 Currently supports: Slack Incoming Webhooks
+
+![alt text](image.png)
 
 **cooldown.py**
 
@@ -225,20 +226,20 @@ Cooldown logic ensures:same service not analyzed repeatedly
 
 Each incident payload includes operational signals such as:
 
-pod
-container_name
-container_image
-image_tag
-restart_count
-exit_code
-termination_reason
-OOMKilled
-resource_limits
-resource_requests
-liveness_probe
-readiness_probe
-termination_message
-recent_logs
+*pod
+*container_name
+*container_image
+*image_tag
+*restart_count
+*exit_code
+*termination_reason
+*OOMKilled
+*resource_limits
+*resource_requests
+*liveness_probe
+*readiness_probe
+*termination_message
+*recent_logs
 
 **Real Failure Scenarios Tested**
 *CrashLoopBackOff*
