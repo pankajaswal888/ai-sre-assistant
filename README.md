@@ -283,11 +283,9 @@ This project explores the intersection of AI and Site Reliability Engineering.
 
 It demonstrates how LLMs can assist with:
 
-incident triage
-
-root cause analysis
-
-operational diagnostics
+1.incident triage
+2.root cause analysis
+3.operational diagnostics
 
 The assistant does not replace SREs but acts as a decision-support system that accelerates troubleshooting.
 
