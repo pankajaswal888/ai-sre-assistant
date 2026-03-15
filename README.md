@@ -40,10 +40,79 @@ This reduces the time required to perform initial incident triage.
 
 **System Architecture**
 
+                 Kubernetes Cluster
+                         │
+                         │
+               Kubernetes Events API
+                         │
+                         ▼
+                  Event Watcher
+                    (watcher.py)
+                         │
+                         │ enrich payload
+                         ▼
+                   Evidence Collector
+                    (collector.py)
+                         │
+                         │ structured incident data
+                         ▼
+                  AI Analyzer
+                   (analyzer.py)
+                         │
+                         │ AWS Bedrock LLM
+                         ▼
+                  Root Cause Analysis
+                         │
+                         ▼
+                   Notification
+                   (notifier.py)
+                         │
+                         ▼
+                      Slack
 
 **Event Processing Flow**
 
+    Pod Crash
+        │
+        ▼
+    Kubernetes Event
+        │
+        ▼
+    watcher.py detects BackOff / CrashLoopBackOff
+        │
+        ▼
+    collector.py gathers runtime evidence
+        │
+        ▼
+    analyzer.py sends incident payload to LLM
+        │
+        ▼
+    LLM produces diagnosis
+        │
+        ▼
+    notifier.py sends alert to Slack
+
+
 **Repository Structure**
+
+ai-sre-assistant
+│
+├── src
+│   ├── main.py
+│   ├── watcher.py
+│   ├── collector.py
+│   ├── analyzer.py
+│   ├── notifier.py
+│   ├── cooldown.py
+│   └── config.py
+│
+├── prompts
+│   └── sre_prompt.txt
+│
+├── deployment.yaml
+├── Dockerfile
+├── requirements.txt
+└── README.md
 
 **Component Breakdown**
 **main.py**
@@ -60,6 +129,13 @@ Responsibilities:
 
 Flow:
 
+watch_events()
+     ↓
+collect()
+     ↓
+analyze()
+     ↓
+notify()
 
 **watcher.py**
 
@@ -141,6 +217,76 @@ Prevents alert storms.
 CrashLoopBackOff generates many repeated events.
 
 Cooldown logic ensures:same service not analyzed repeatedly
+
+**Incident Evidence Collected**
+
+Each incident payload includes operational signals such as:
+
+pod
+container_name
+container_image
+image_tag
+restart_count
+exit_code
+termination_reason
+OOMKilled
+resource_limits
+resource_requests
+liveness_probe
+readiness_probe
+termination_message
+recent_logs
+
+**Real Failure Scenarios Tested**
+CrashLoopBackOff
+
+Deployment intentionally exits with code 1.
+
+OOMKilled
+
+Container memory usage exceeds configured limit.
+
+Failed Scheduling
+
+Pod requests impossible resources.
+
+The assistant was tested with several real-world failure modes.
+
+**Future Improvements**
+
+Several enhancements can make the system more production-ready.
+
+**Prometheus Metrics Integration**
+
+Add metrics context:
+container_cpu_usage
+container_memory_usage
+node_memory_pressure
+restart_rate
+
+**Multi-Cluster Support**
+
+Extend the assistant to monitor multiple clusters.
+
+**Auto Remediation**
+
+Enable AI to trigger corrective actions:
+kubectl rollout restart
+kubectl scale deployment
+
+**Project Goal**
+
+This project explores the intersection of AI and Site Reliability Engineering.
+
+It demonstrates how LLMs can assist with:
+
+incident triage
+
+root cause analysis
+
+operational diagnostics
+
+The assistant does not replace SREs but acts as a decision-support system that accelerates troubleshooting.
 
 
 **Author**
