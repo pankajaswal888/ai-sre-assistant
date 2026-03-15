@@ -93,7 +93,7 @@ This reduces the time required to perform initial incident triage.
     notifier.py sends alert to Slack
 
 
-**Repository Structure**
+
 
 ## Repository Structure
 
