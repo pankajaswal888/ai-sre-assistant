@@ -241,15 +241,15 @@ termination_message
 recent_logs
 
 **Real Failure Scenarios Tested**
-CrashLoopBackOff
+*CrashLoopBackOff*
 
 Deployment intentionally exits with code 1.
 
-OOMKilled
+*OOMKilled*
 
 Container memory usage exceeds configured limit.
 
-Failed Scheduling
+*Failed Scheduling*
 
 Pod requests impossible resources.
 
@@ -284,7 +284,9 @@ This project explores the intersection of AI and Site Reliability Engineering.
 It demonstrates how LLMs can assist with:
 
 1.incident triage
+
 2.root cause analysis
+
 3.operational diagnostics
 
 The assistant does not replace SREs but acts as a decision-support system that accelerates troubleshooting.
