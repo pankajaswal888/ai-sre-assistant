@@ -95,6 +95,9 @@ This reduces the time required to perform initial incident triage.
 
 **Repository Structure**
 
+## Repository Structure
+
+```
 ai-sre-assistant
 │
 ├── src
@@ -104,15 +107,15 @@ ai-sre-assistant
 │   ├── analyzer.py
 │   ├── notifier.py
 │   ├── cooldown.py
-│   └── config.py
-│
-├── prompts
-│   └── sre_prompt.txt
+│   ├── config.py
+│   └── prompts
+│       └── sre_prompt.txt
 │
 ├── deployment.yaml
 ├── Dockerfile
 ├── requirements.txt
 └── README.md
+```
 
 **Component Breakdown**
 **main.py**
