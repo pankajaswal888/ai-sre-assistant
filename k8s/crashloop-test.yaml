@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sre-crashloop-test
+  namespace: ai-sre
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sre-crashloop-test
+  template:
+    metadata:
+      labels:
+        app: sre-crashloop-test
+    spec:
+      containers:
+      - name: sre-crashloop-test
+        image: busybox
+        command: ["sh", "-c", "echo 'app crashed'; exit 1"]

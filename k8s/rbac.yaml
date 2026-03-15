@@ -1,0 +1,39 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: sre-assistant
+  namespace: ai-sre
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: sre-assistant-role
+  namespace: ai-sre
+
+rules:
+- apiGroups: [""]
+  resources:
+    - pods
+    - pods/log
+    - events
+  verbs:
+    - get
+    - list
+    - watch
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: sre-assistant-binding
+
+subjects:
+- kind: ServiceAccount
+  name: sre-assistant
+  namespace: ai-sre
+
+roleRef:
+  kind: ClusterRole
+  name: sre-assistant-role
+  apiGroup: rbac.authorization.k8s.io

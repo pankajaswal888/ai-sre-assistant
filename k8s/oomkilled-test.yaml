@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sre-oom-test
+  namespace: ai-sre
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sre-oom-test
+  template:
+    metadata:
+      labels:
+        app: sre-oom-test
+    spec:
+      containers:
+      - name: sre-oom-test
+        image: python:3.11-alpine
+        command: ["python","-c","a=' ' * 1024 * 1024 * 300"]
+        resources:
+          limits:
+            memory: "100Mi"

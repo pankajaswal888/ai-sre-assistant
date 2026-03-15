@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sre-test-service
+  namespace: ai-sre
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sre-test-service
+  template:
+    metadata:
+      labels:
+        app: sre-test-service
+    spec:
+      containers:
+      - name: sre-test-service
+        image: busybox
+        command: ["sh","-c","exit 1"]
